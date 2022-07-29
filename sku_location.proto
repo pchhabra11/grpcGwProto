@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+option java_multiple_files = true;
+option java_package = "com.brightly.storage";
+option java_outer_classname = "SKULocationGrpc";
+
+package sku_location;
+
+option go_package = "./grpcREST";
+
+service SKULocationGrpcService {
+  rpc CreateSKULocation (SKULocationRequest) returns (google.protobuf.StringValue) {}
+  //rpc ListSKULocations (google.protobuf.StringValue) returns (SKULocationResponse) {}
+  // TODO: Different update scenarios
+  rpc UpdateSKULocationLayoutValues (SKULocationLayoutValuesRequest) returns (google.protobuf.Empty) {}
+  rpc DeactivateSKULocation (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
+  rpc ReactivateSKULocation (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
+  rpc DeleteSKULocation (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
+  rpc GetSKULocation (google.protobuf.StringValue) returns (SKULocationResponse) {
+  option (google.api.http) = {
+      get: "/v1/example/echo/{uuid}"
+      };
+     }
+}
+
+message SKULocationRequest {
+  string location_id = 1;
+  string sku_id = 2;
+  repeated string layout_values = 3;
+}
+
+message SKULocationLayoutValuesRequest {
+  string sku_location_id = 1;
+  repeated string layout_values = 2;
+  string notes = 3;
+}
+
+message SKULocationResponse {
+   string location_id = 1;
+   string sku_id = 2;
+   repeated string layout_values = 3;
+   bool is_active = 4;
+   string notes = 5;
+}
+
+
